@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>All in TEXAS｜勝率が見える、初心者のためのテキサスホールデム</title>
+<meta name="description" content="インストール不要・通信なし・1ファイルで動くテキサスホールデム。初心者モードをONにすると、手番ごとに勝率・アウツ・必要勝率と、おすすめの一手を理由つきで表示。打ち筋の違う5人のCPUと対戦。">
+<meta property="og:title" content="All in TEXAS">
+<meta property="og:description" content="降りるか、押すか。数字が教えてくれる。勝率・アウツ・必要勝率が見える、初心者のためのテキサスホールデム。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pikaring.github.io/all-in-texas/">
+<meta property="og:image" content="https://pikaring.github.io/all-in-texas/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="All in TEXAS">
+<meta name="twitter:description" content="降りるか、押すか。数字が教えてくれる。勝率・アウツ・必要勝率が見える、初心者のためのテキサスホールデム。">
+<meta name="twitter:image" content="https://pikaring.github.io/all-in-texas/assets/og.png">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700;750&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top"><img src="assets/icon.png" alt=""> All in TEXAS</a>
+    <nav class="nav">
+      <a href="#coach">初心者モード</a>
+      <a href="#cpu">相手</a>
+      <a href="#rules">ルール</a>
+      <a href="#how">遊び方</a>
+      <a href="#faq">よくある質問</a>
+      <a class="btn btn-main" href="app/">いますぐ遊ぶ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="pill"><b>無料</b> · インストール不要 · 通信なし · MIT License</span>
+        <h1>降りるか、押すか。<br>数字が教えてくれる。</h1>
+        <p class="lead">テキサスホールデムを、勝率を見ながら覚える。
+          初心者モードをONにすると、自分の手番ごとに勝率・アウツ・必要勝率と、
+          おすすめの一手が理由つきで出ます。ブラウザで開けば、そこがテーブルです。</p>
+        <div class="hero-actions">
+          <a class="btn btn-main" href="app/">いますぐ遊ぶ</a>
+          <a class="btn btn-sub" href="https://github.com/pikaring/all-in-texas">GitHubで見る</a>
+        </div>
+        <p class="hero-note">勝率は「相手がこれまでの行動から推定されるハンドを持っている」と仮定したモンテカルロ計算です。</p>
+      </div>
+
+      <!-- 実物の画面（app/css/style.css）の配色・段構成に合わせたモック -->
+      <div class="phone" aria-hidden="true">
+        <div class="board">
+          <div class="tb"><span class="tt">All in TEXAS</span><span class="on">初心者:ON</span><span>透視:OFF</span><span>速度:普</span><span>相手:3</span></div>
+          <div class="ib"><span>第 7 ハンド</span><span>ブラインド <b>10/20</b></span><span class="st">フロップ</span></div>
+
+          <div class="opps">
+            <div class="seat fold"><div class="sh"><b>石橋</b><span class="pos">UTG</span></div><div class="sb"><i class="c back"></i><i class="c back"></i><span class="stk">2,940</span></div><div class="sf">フォールド</div></div>
+            <div class="seat act"><div class="sh"><b>嵐山</b><span class="pos d">D</span></div><div class="sb"><i class="c back"></i><i class="c back"></i><span class="stk">2,760</span></div><div class="sf strong">ベット 120</div></div>
+            <div class="seat fold"><div class="sh"><b>野呂</b><span class="pos">SB</span></div><div class="sb"><i class="c back"></i><i class="c back"></i><span class="stk">2,990</span></div><div class="sf">フォールド</div></div>
+          </div>
+
+          <div class="center">
+            <div class="pot">ポット <b>310</b></div>
+            <div class="row"><i class="c r">K<small>♥</small></i><i class="c">9<small>♠</small></i><i class="c">4<small>♠</small></i><i class="c slot"></i><i class="c slot"></i></div>
+          </div>
+
+          <div class="coach">
+            <div><span class="rec">レイズ</span><span class="hn">Kのワンペア（トップペア）</span></div>
+            <div class="bar"><div class="w" style="width:70%">勝 70%</div><div class="t" style="width:2%"></div><div class="l" style="width:28%">負 28%</div></div>
+            <div class="stats"><span>勝率 <b>71%</b></span><span>必要勝率 <b>28%</b></span><span>アウツ <b>9 枚</b></span></div>
+            <div class="outs"><span class="lbl">フラッシュになる札 9</span><i class="c">A<small>♠</small></i><i class="c">Q<small>♠</small></i><i class="c">J<small>♠</small></i><i class="c">T<small>♠</small></i><i class="c">8<small>♠</small></i><i class="c">7<small>♠</small></i><i class="c">6<small>♠</small></i><i class="c">5<small>♠</small></i><i class="c">3<small>♠</small></i></div>
+            <ul><li>トップペアにナッツフラッシュドロー。勝率が高いのでレイズしてポットを大きくします。</li></ul>
+          </div>
+
+          <div class="me">
+            <i class="c">A<small>♠</small></i><i class="c">K<small>♠</small></i>
+            <div class="info"><div>あなた <span class="pos" style="background:#ffffff29;border-radius:3px;padding:0 3px;font-size:7px">BB</span></div><div class="stk">2,860</div><div>Kのワンペア・トップペア</div></div>
+          </div>
+          <div class="acts"><span class="ab">フォールド</span><span class="ab">コール 120</span><span class="ab warn rec">レイズ → 380</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="specs">
+    <div class="wrap specs-grid">
+      <div class="spec"><b>勝率・アウツ・必要勝率</b><span>手番ごとに計算して、理由つきで表示</span></div>
+      <div class="spec"><b>5人の打ち筋</b><span>堅実・攻撃・ゆるい・標準・気まぐれ</span></div>
+      <div class="spec"><b>通信なし・1ファイル</b><span>約100KBのHTML。圏外でも動く</span></div>
+      <div class="spec"><b>iPhoneで1画面</b><span>手札・ボード・解説・ボタンが縦に収まる</span></div>
+    </div>
+  </div>
+
+  <section id="coach">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">01 — BEGINNER MODE</p>
+        <h2>勘ではなく、<br>数字で覚える。</h2>
+        <p>ポーカーの判断は「勝率が必要勝率を上回るか」に尽きます。初心者モードは、その2つの数字と根拠を
+          毎回そのまま見せます。慣れてきたらOFFにして、自分の読みと答え合わせを。</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <p class="num">勝率</p>
+          <h3>相手のレンジを推定して、最後まで戦わせる</h3>
+          <ul>
+            <li>レイズした人は上位20%、コールした人は上位30〜55%、といった具合に相手のハンドを絞る</li>
+            <li>残りのカードをランダムに配って1,500回勝負（モンテカルロ法）</li>
+            <li>勝ち・引き分け・負けの割合をバーで表示</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">アウツ</p>
+          <h3>役が上がる札を、実物のカードで並べる</h3>
+          <ul>
+            <li>「フラッシュになる札 9枚」「ツーペアになる札 6枚」のように役ごとに列挙</li>
+            <li>フラッシュドロー・オープンエンド・ガットショットを自動で判定</li>
+            <li>フロップは×4、ターンは×2の「4倍・2倍ルール」で引ける確率の目安も</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">必要勝率</p>
+          <h3>コール額 ÷（ポット + コール額）</h3>
+          <ul>
+            <li>ベットを受けたとき、いくらの勝率があればコールして損しないか</li>
+            <li>勝率と並べて「勝率 45% ＞ 必要勝率 28% なのでコールは＋EV」と説明</li>
+            <li>おすすめのボタンには金枠。レイズ額も推奨値が入った状態で出る</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">ハンド表</p>
+          <h3>169種のスターティングハンドを色分け</h3>
+          <ul>
+            <li>プリフロップでは「AKsは169種中6位（上位2.6%）」と順位で表示</li>
+            <li>ポジション別の参加基準（早い席は上位12%、遅い席は上位28%）</li>
+            <li>「ハンド表」ボタンで全体を一覧。今の手がハイライトされる</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">「透視」をONにするとCPUの手札が表向きになります。降りた手が実際どうだったかを見ながら学べます。</p>
+    </div>
+  </section>
+
+  <section class="alt" id="cpu">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">02 — OPPONENTS</p>
+        <h2>打ち筋の違う5人が、<br>手札を見ずに打つ。</h2>
+        <p>堅さ・攻め・ブラフの重みが違う5人から、ゲームごとにランダムで卓に着きます（1〜5人）。
+          CPUが見ているのは自分の手札とボード、ポットだけ。あなたの手札は見ていません。</p>
+      </div>
+
+      <div class="chars">
+        <div class="char"><div class="cn">①<span class="tag">堅実</span></div><h3>石橋</h3><p>強い手でしか参加しない。ベットされたら本当に強い。</p><div class="stat"><span class="cool">参加 19%</span><span>レイズ 9%</span><span class="hot">SD勝率 62%</span></div></div>
+        <div class="char"><div class="cn">②<span class="tag">攻撃</span></div><h3>嵐山</h3><p>よくレイズする。ブラフも多いので、強い手ならコールで釣れる。</p><div class="stat"><span>参加 32%</span><span class="hot">レイズ 23%</span><span>SD勝率 52%</span></div></div>
+        <div class="char"><div class="cn">③<span class="tag">ゆるい</span></div><h3>野呂</h3><p>広い手でコールする。ベットで降ろしにくいが、強い手で大きく取れる。</p><div class="stat"><span class="hot">参加 39%</span><span>レイズ 17%</span><span>SD勝率 57%</span></div></div>
+        <div class="char"><div class="cn">④<span class="tag">標準</span></div><h3>真面</h3><p>教科書どおり。ポジションと手の強さで判断する。</p><div class="stat"><span>参加 28%</span><span>レイズ 17%</span><span>SD勝率 52%</span></div></div>
+        <div class="char"><div class="cn">⑤<span class="tag">気まぐれ</span></div><h3>猫田</h3><p>読みにくい。同じ場面でも違う行動をとる。</p><div class="stat"><span>参加 34%</span><span>レイズ 20%</span><span class="cool">SD勝率 49%</span></div></div>
+      </div>
+      <p class="note">数字は5人を同じ卓に着かせて約1,500ハンドずつ回した実測値（参加＝プリフロップで自分からチップを入れた割合、SD勝率＝ショーダウンに残ったときの勝率）。<code>node tests/characters.js</code> で再測定できます。</p>
+    </div>
+  </section>
+
+  <section id="rules">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">03 — RULES</p>
+        <h2>ノーリミットの<br>シット＆ゴー。</h2>
+        <p>一番よく遊ばれている形式です。細かい採用は画面の「ルール」ボタンからいつでも見られます。</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <p class="num">形式</p>
+          <h3>持ちチップ3,000のトーナメント</h3>
+          <ul>
+            <li>ブラインドは10/20から始まり、8ハンドごとに上がる</li>
+            <li>チップが尽きた人は退場。自分が飛ぶか、CPUが全員飛んだら終了</li>
+            <li>ゲームは平均50ハンドほどで決着</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">ベット</p>
+          <h3>ノーリミット</h3>
+          <ul>
+            <li>いつでも全額（オールイン）まで賭けられる</li>
+            <li>最小レイズは直前のレイズ幅。サイドポットあり</li>
+            <li>額はスライダーか「1/2」「3/4」「ポット」「全額」のボタンで</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">進行</p>
+          <h3>プリフロップ → フロップ → ターン → リバー</h3>
+          <ul>
+            <li>手札2枚と共通カード5枚の計7枚から、最も強い5枚で勝負</li>
+            <li>ヘッズアップではディーラーがSBを出し、プリフロップは先に行動</li>
+            <li>引き分けはポットを等分（端数はディーラーに近い人へ）</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="num">役</p>
+          <h3>ハイカードからロイヤルフラッシュまで</h3>
+          <ul>
+            <li>ショーダウンでは全員の役を日本語で表示（「Kと9のツーペア」）</li>
+            <li>自分が使った5枚は金枠で示す</li>
+            <li>役判定は5枚の全2,598,960通りの分布で検証済み</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">04 — HOW TO PLAY</p>
+        <h2>開いて、押すだけ。</h2>
+        <p>自分の番になるとボタンが出ます。初心者モードなら、おすすめのボタンに金枠がついています。
+          まずはそのとおりに押して、理由を読む。それだけで基本が身につきます。</p>
+      </div>
+
+      <div class="night-grid">
+        <div class="night-list">
+          <div class="night-item">
+            <b>プリフロップ</b>
+            <span>まず「この手で参加するか」。ポケットペア・A絡み・絵札同士・同じスートの連番が基本の参加ハンド。
+              後ろの席ほど広い手で参加できます。</span>
+          </div>
+          <div class="night-item">
+            <b>フロップ以降</b>
+            <span>「勝率 ＞ 必要勝率」ならコールは損しない。勝率が高ければベットで取りに行き、
+              ドローがあるならセミブラフ。リバーはもうドローがないので、今の役だけで考えます。</span>
+          </div>
+          <div class="night-item">
+            <b>慣れてきたら</b>
+            <span>初心者モードをOFFにして自分で判断し、迷ったところだけONに戻す。「透視」で相手の手を見て答え合わせ。</span>
+          </div>
+        </div>
+
+        <div class="steps-box">
+          <div class="flow-step"><em>1</em><span><a href="app/">app/</a> を開く。iPhoneならホーム画面に追加しておくと便利</span></div>
+          <div class="flow-step"><em>2</em><span>「相手」でCPUの人数を選ぶ（1〜5人）</span></div>
+          <div class="flow-step"><em>3</em><span>自分の番にフォールド／チェック・コール／ベット・レイズを押す</span></div>
+          <div class="flow-step"><em>4</em><span>自分が飛ぶか、全員のチップを取るまで</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">05 — FAQ</p>
+        <h2>よくある質問</h2>
+      </div>
+
+      <details>
+        <summary>通信はしますか？</summary>
+        <p>しません。読み込むのはHTML・CSS・JSだけで、対戦中に外部と通信する処理はありません。
+          <code>standalone.html</code> 1ファイルをダウンロードしておけば、圏外でも遊べます。</p>
+      </details>
+      <details>
+        <summary>勝率はどうやって計算していますか？</summary>
+        <p>残っている相手それぞれについて「これまでの行動から推定されるハンドの範囲（レンジ）」を仮定し、
+          その範囲からランダムに手札を配り、残りの共通カードもランダムに配って最後まで勝負させます。
+          これを1,500回繰り返した勝ちの割合が勝率です。相手が本当に持っている手札は使いません。</p>
+      </details>
+      <details>
+        <summary>おすすめのとおりに打てば勝てますか？</summary>
+        <p>基本を外さなくはなりますが、必ず勝てるわけではありません。推奨は「勝率と必要勝率の比較」と
+          「ポジション別の参加基準」というシンプルなルールで決めていて、相手の癖やベット額の意味までは読んでいません。
+          そこから先が、あなたの読みの出番です。</p>
+      </details>
+      <details>
+        <summary>CPUはこちらの手札を見ていませんか？</summary>
+        <p>見ていません。CPUが参照するのは自分の手札と、誰にでも見える共通カード・ポット・ベット額だけです。
+          勝率の概算も、あなたと同じくランダムな相手を仮定して計算しています。</p>
+      </details>
+      <details>
+        <summary>スマホで遊べますか？</summary>
+        <p>iPhoneを基準に作っています（幅430pxで、スクロールなしで1画面に収まるように）。
+          パソコンのブラウザでも遊べます。</p>
+      </details>
+      <details>
+        <summary>名前の由来は？</summary>
+        <p>オールイン（All in）と、テキサス（Texas Hold'em）。アイコンは夕焼けの砂漠にサボテン、
+          手前にオールインする手の代名詞、ポケットエースを置きました。</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <p class="eyebrow" style="justify-content:center">READY TO SHOVE</p>
+      <h2>ブラインドは 10/20 から。</h2>
+      <p style="margin-top:14px">インストールも登録も要りません。ブラウザで開いてすぐ座れます。</p>
+      <div class="hero-actions">
+        <a class="btn btn-main" href="app/">いますぐ遊ぶ</a>
+        <a class="btn btn-sub" href="app/standalone.html" download="all-in-texas.html">1ファイル版をダウンロード</a>
+      </div>
+      <p class="hero-note">MIT License · 依存ライブラリなし</p>
+    </div>
+  </section>
+
+  <section class="family" id="family">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">MORE TOOLS</p>
+        <h2>同じ作者の、ほかのツール。</h2>
+      </div>
+      <div class="family-grid">
+        <a class="fam" href="https://pikaring.github.io/rock-on-mj/"><img src="https://pikaring.github.io/rock-on-mj/assets/icon.png" alt=""><b>ROCK ON MJ</b><span>Web会議を録音して、PCの中だけで文字起こし</span></a>
+        <a class="fam" href="https://pikaring.github.io/ride-on-qc/"><img src="https://pikaring.github.io/ride-on-qc/assets/icon.png" alt=""><b>Ride on QC</b><span>曲がり角ごとの地図と風向きが出る、ブルベのキューシート</span></a>
+        <a class="fam" href="https://pikaring.github.io/reach-on-sanma/"><img src="https://pikaring.github.io/reach-on-sanma/assets/icon.png" alt=""><b>Reach on SANMA</b><span>登録もダウンロードも要らない三人麻雀</span></a>
+        <a class="fam" href="https://pikaring.github.io/eat-on-gpx/"><img src="https://pikaring.github.io/eat-on-gpx/assets/icon.png" alt=""><b>Eat on GPX</b><span>ルート沿いのコンビニ・食堂を、スタートからの距離順に</span></a>
+        <a class="fam current" href="https://pikaring.github.io/all-in-texas/"><img src="assets/icon.png" alt=""><b>All in TEXAS</b><span>勝率が見える、初心者のためのテキサスホールデム</span><em>このページ</em></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>All in TEXAS</span>
+    <a href="https://github.com/pikaring/all-in-texas">GitHub</a>
+    <a href="https://github.com/pikaring/all-in-texas/blob/main/LICENSE">MIT License</a>
+    <a href="https://github.com/pikaring/all-in-texas/blob/main/README.md">README</a>
+    <span class="counter">累計アクセス <b id="counter-value">―</b> 回</span>
+    <span class="sep">依存ライブラリなし・外部素材なし</span>
+  </div>
+</footer>
+
+<script>
+// アクセスカウンター（庁内Webと同じGAS。page名でサイトごとに別カウント）
+(function () {
+  var el = document.getElementById('counter-value');
+  if (!el) return;
+  var page = location.pathname.replace(/index\.html$/, '');
+  fetch('https://script.google.com/macros/s/AKfycbxkQLZXNAFXkT7zhIO0TmMDGU3A0TQ234Lf-yhw5J7lvFAjCi3KLNLRd_LKd_xlOxPd/exec?page=' + encodeURIComponent(page))
+    .then(function (r) { return r.json(); })
+    .then(function (d) { el.textContent = Number(d.count).toLocaleString('ja-JP'); })
+    .catch(function () { el.textContent = '―'; });
+})();
+</script>
+</body>
+</html>

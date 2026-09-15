@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>All in TEXAS － テキサスホールデム</title>
+<meta name="description" content="ブラウザだけで遊べる軽量なテキサスホールデム。初心者モードで勝率・アウツ・ポットオッズと推奨アクションを表示して戦略を学べる。">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23245c8a'/><text y='24' x='16' text-anchor='middle' font-size='20' fill='%23fbf7ec'>♠</text></svg>">
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <span class="title">All in TEXAS</span>
+    <button class="btn" data-act="coach">初心者:ON</button>
+    <button class="btn" data-act="open">透視:OFF</button>
+    <button class="btn" data-act="speed">速度:普</button>
+    <button class="btn" data-act="opps">相手:3</button>
+    <button class="btn" data-act="chart">ハンド表</button>
+    <button class="btn" data-act="new-game">新規</button>
+    <button class="btn" data-act="rules">ルール</button>
+  </div>
+
+  <div class="infobar" id="infobar"></div>
+  <div class="opps" id="opps"></div>
+  <div class="center" id="center"></div>
+  <div class="coach" id="coach" hidden></div>
+  <div class="log" id="log"></div>
+  <div class="self" id="self"></div>
+  <div class="actions" id="actions"></div>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="overlay" id="chart-overlay" hidden>
+  <div class="sheet">
+    <h2>スターティングハンド表</h2>
+    <div class="detail">
+      169 種のハンドを強い順に色分け。右上が同じスート（s）、左下が違うスート（o）、対角線がポケットペア。
+      色は「相手 3 人のときの勝率」の順位です。
+    </div>
+    <div class="chart-legend">
+      <span class="t1">上位5%</span><span class="t2">〜15%</span><span class="t3">〜30%</span><span class="t4">〜50%</span><span class="t5">それ以下</span>
+    </div>
+    <div id="chart-grid" class="chart-grid"></div>
+    <div id="chart-info" class="chart-info">マスを押すと順位と勝率が出ます</div>
+    <div style="margin-top:12px;text-align:right">
+      <button class="btn primary" data-act="close-chart">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="rules-overlay" hidden>
+  <div class="sheet">
+    <h2>ルールと遊び方</h2>
+    <div class="detail">
+      <b>ゲーム</b><br>
+      ・ノーリミット・テキサスホールデム。自分 + CPU 1〜5 人のシット＆ゴー方式。<br>
+      ・持ちチップ 3000。ブラインドは 8 ハンドごとに上がります（10/20 → 15/30 → 25/50 …）。<br>
+      ・チップが尽きた人は退場。自分が飛ぶか、CPU が全員飛んだら終了です。<br>
+      ・サイドポットあり。引き分けはポットを等分します。
+      <div class="divider"></div>
+      <b>進行</b><br>
+      ・各自に 2 枚（手札）が配られ、共通カードがフロップ 3 枚 → ターン 1 枚 → リバー 1 枚と開きます。<br>
+      ・手札 2 枚と共通カード 5 枚の計 7 枚から、最も強い 5 枚の組み合わせで勝負します。<br>
+      ・ボタン：<b>フォールド</b>（降りる）／<b>チェック</b>（何もしない）／<b>コール</b>（合わせる）／<b>ベット・レイズ</b>（上乗せ）。<br>
+      ・ベット額はスライダーか「1/2」「ポット」などのボタンで決めて、ベット／レイズを押します。
+      <div class="divider"></div>
+      <b>初心者モード</b><br>
+      ・自分の手番に、勝率・アウツ・ポットオッズと<b>おすすめのアクション</b>を理由つきで表示します。<br>
+      ・<b>勝率</b>は「残っている相手が、これまでの行動から推定されるハンドの範囲（レンジ）を持っている」と仮定して、
+        残りのカードをランダムに配って最後まで戦わせる計算（モンテカルロ法）で求めています。
+        レイズした人は上位 20%、コールした人は上位 30〜55% といった具合です。<br>
+      ・<b>アウツ</b>は「次の 1 枚で今より上の役になる札」の枚数。フロップなら ×4、ターンなら ×2 がおおよその引ける確率（%）です。<br>
+      ・<b>必要勝率</b>（ポットオッズ）＝ コール額 ÷（ポット + コール額）。勝率がこれを上回るならコールは損しません。<br>
+      ・「透視」を ON にすると CPU の手札が見えます。答え合わせをしながら学ぶときに。<br>
+      ・「ハンド表」で 169 種のスターティングハンドの強さを確認できます。
+      <div class="divider"></div>
+      <b>対戦相手</b><br>
+      5 人の打ち筋から毎回ランダムに選ばれます。CPU は自分の手札とボード、ポットしか見ていません。
+      <div id="char-list"></div>
+    </div>
+    <div style="margin-top:12px;text-align:right">
+      <button class="btn primary" data-act="close-rules">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/cards.js"></script>
+<script src="js/preflop.js"></script>
+<script src="js/equity.js"></script>
+<script src="js/coach.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/game.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  PK.ui.init();
+</script>
+</body>
+</html>
