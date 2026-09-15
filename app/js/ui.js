@@ -20,7 +20,6 @@
   var advice = null;          // 直近のコーチ結果
   var heroTurn = false;
   var betTo = 0;              // スライダーの値（到達額）
-  var autoTimer = null;
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -299,12 +298,8 @@
     }
     if (type === 'hand-end') {
       heroTurn = false;
+      // 自動では進めない。結果を読んでから「次のハンド」を押す
       render();
-      clearTimeout(autoTimer);
-      // 自分が降りていたハンドは自動で次へ
-      if (game.players[0].folded && !game.gameOver) {
-        autoTimer = setTimeout(function () { if (game.handOver && !game.gameOver) game.nextHand(); }, 2200);
-      }
       return;
     }
     if (type === 'game-over') {
@@ -368,7 +363,6 @@
   /* ---- 操作 ---- */
   function newGame() {
     if (game) game.stop();
-    clearTimeout(autoTimer);
     logs = []; advice = null; heroTurn = false;
     game = new PK.Game({ speed: SPEEDS[settings.speed].ms, opponents: settings.opps, onEvent: onEvent });
     $('overlay').hidden = true;
@@ -405,7 +399,7 @@
     var act = btn.getAttribute('data-act');
     switch (act) {
       case 'new-game': newGame(); break;
-      case 'next-hand': clearTimeout(autoTimer); if (game && game.handOver) game.nextHand(); break;
+      case 'next-hand': if (game && game.handOver) game.nextHand(); break;
       case 'fold': case 'check': case 'call':
         if (game && heroTurn) { heroTurn = false; game.act(0, act); }
         break;

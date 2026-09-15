@@ -18,15 +18,15 @@
   var C = PK.cards;
 
   var PERSONAS = [
-    { name: '石橋', tag: '堅実', tight: 0.9, aggr: 0.35, bluff: 0.05,
+    { name: 'ビエホ', tag: '堅実', tight: 0.9, aggr: 0.35, bluff: 0.05,
       desc: '強い手でしか参加しない。ベットされたら本当に強い。' },
-    { name: '嵐山', tag: '攻撃', tight: 0.5, aggr: 0.9, bluff: 0.3,
+    { name: 'ディアブロ', tag: '攻撃', tight: 0.5, aggr: 0.9, bluff: 0.3,
       desc: 'よくレイズする。ブラフも多いので、強い手ならコールで釣れる。' },
-    { name: '野呂', tag: 'ゆるい', tight: 0.15, aggr: 0.3, bluff: 0.1,
+    { name: 'ゴルド', tag: 'ゆるい', tight: 0.15, aggr: 0.3, bluff: 0.1,
       desc: '広い手でコールする。ベットで降ろしにくいが、強い手で大きく取れる。' },
-    { name: '真面', tag: '標準', tight: 0.6, aggr: 0.55, bluff: 0.15,
+    { name: 'ヴィニー', tag: '標準', tight: 0.6, aggr: 0.55, bluff: 0.15,
       desc: '教科書どおり。ポジションと手の強さで判断する。' },
-    { name: '猫田', tag: '気まぐれ', tight: 0.4, aggr: 0.6, bluff: 0.25,
+    { name: 'ロコ', tag: '気まぐれ', tight: 0.4, aggr: 0.6, bluff: 0.25,
       desc: '読みにくい。同じ場面でも違う行動をとる。' }
   ];
 
