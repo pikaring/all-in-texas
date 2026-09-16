@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-09-16T09:39:14+09:00",
+ "fetchedAt": "2026-09-16T09:48:00+09:00",
  "items": {
   "4041081467": {
    "title": "ゼロから勝てるポーカー カジノオーナーが教えるテキサスホールデム",
@@ -30,6 +30,18 @@
    "image": "https://m.media-amazon.com/images/I/51SweHbZfrL._SL500_.jpg",
    "price": "￥5,880",
    "url": "https://www.amazon.co.jp/dp/B0CGH7T43M?tag=redcomet-22&linkCode=ogi&th=1&psc=1"
+  },
+  "B0CJ51RSS9": {
+   "title": "龍が如く8 - PS5",
+   "image": "https://m.media-amazon.com/images/I/51fT60S1P3L._SL500_.jpg",
+   "price": "￥1,787",
+   "url": "https://www.amazon.co.jp/dp/B0CJ51RSS9?tag=redcomet-22&linkCode=ogi&th=1&psc=1"
+  },
+  "B0FKRG7PT5": {
+   "title": "龍が如く 極 - Switch2",
+   "image": "https://m.media-amazon.com/images/I/51u+MWicEiL._SL500_.jpg",
+   "price": "￥2,505",
+   "url": "https://www.amazon.co.jp/dp/B0FKRG7PT5?tag=redcomet-22&linkCode=ogi&th=1&psc=1"
   }
  }
 }
