@@ -29,6 +29,7 @@
     <a class="brand" href="#top"><img src="assets/icon.png" alt=""> All in TEXAS</a>
     <nav class="nav">
       <a href="#coach">初心者モード</a>
+      <a href="#goods">本</a>
       <a href="#cpu">相手</a>
       <a href="#rules">ルール</a>
       <a href="#how">遊び方</a>
@@ -98,6 +99,42 @@
       <div class="spec"><b>iPhoneで1画面</b><span>手札・ボード・解説・ボタンが縦に収まる</span></div>
     </div>
   </div>
+
+  <section class="goods" id="goods">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">BOOKS</p>
+        <h2>数字で覚えるなら、本も。</h2>
+        <p>初心者モードが出している「勝率」「アウツ」「必要勝率」の考え方は、どれも定番の入門書に載っています。ゲームで手を動かしながら読むと、数字の意味が腹に落ちます。</p>
+      </div>
+      <div class="goods-grid">
+        <div class="good" data-asin="4046066601">
+          <p class="gcat">入門</p>
+          <h3>7日で完全攻略！ 世界一やさしいポーカーの勝ち方</h3>
+          <p>世界のヨコサワの入門書。ルールから、オッズ・レンジ・ベットサイズまで、7日分の構成で順に。最初の1冊に。</p>
+          <a class="glink" href="https://www.amazon.co.jp/dp/4046066601?tag=redcomet-22" target="_blank" rel="sponsored noopener">Amazonで見る ↗</a>
+        </div>
+        <div class="good" data-asin="4041081467">
+          <p class="gcat">入門</p>
+          <h3>ゼロから勝てるポーカー</h3>
+          <p>カジノオーナーが教えるテキサスホールデム。確率をもとに勝つ考え方を、ゼロから。このゲームの初心者モードと同じ発想です。</p>
+          <a class="glink" href="https://www.amazon.co.jp/dp/4041081467?tag=redcomet-22" target="_blank" rel="sponsored noopener">Amazonで見る ↗</a>
+        </div>
+        <div class="good" data-asin="4775949012">
+          <p class="gcat">定番</p>
+          <h3>フィル・ゴードンのポーカー攻略法 入門編</h3>
+          <p>WPT優勝者による古典的な入門書。ポジション・スターティングハンド・ポットオッズといった基本が一通り。</p>
+          <a class="glink" href="https://www.amazon.co.jp/dp/4775949012?tag=redcomet-22" target="_blank" rel="sponsored noopener">Amazonで見る ↗</a>
+        </div>
+        <div class="good" data-asin="4775949292">
+          <p class="gcat">数学</p>
+          <h3>ポーカー数学の教科書</h3>
+          <p>アウツ・オッズ・期待値を、計算の手順から。初心者モードの数字が「どこから来ているか」を自分で追えるようになります。</p>
+          <a class="glink" href="https://www.amazon.co.jp/dp/4775949292?tag=redcomet-22" target="_blank" rel="sponsored noopener">Amazonで見る ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="coach">
     <div class="wrap">
@@ -337,6 +374,7 @@
     <a href="https://github.com/pikaring/all-in-texas/blob/main/README.md">README</a>
     <span class="counter">累計アクセス <b id="counter-value">―</b> 回</span>
     <span class="sep">依存ライブラリなし・外部素材なし</span>
+    <span class="disclosure">当サイトはAmazonアソシエイト・プログラムに参加しており、掲載しているリンクから商品が買われると運営者に紹介料が入る場合があります。</span>
   </div>
 </footer>
 
@@ -350,6 +388,35 @@
     .then(function (r) { return r.json(); })
     .then(function (d) { el.textContent = Number(d.count).toLocaleString('ja-JP'); })
     .catch(function () { el.textContent = '―'; });
+})();
+</script>
+<script>
+// Amazon Creators API で取った商品情報（tools/fetch_goods.py が assets/goods.json に書く）。
+// 取れていれば画像と価格を足し、無ければテキストカードのまま。
+(function () {
+  var cards = document.querySelectorAll('.good[data-asin]');
+  if (!cards.length) return;
+  fetch('assets/goods.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (d) {
+    var at = new Date(d.fetchedAt);
+    var stamp = isNaN(at) ? '' : (at.getMonth() + 1) + '/' + at.getDate() + '時点';
+    cards.forEach(function (c) {
+      var it = d.items && d.items[c.dataset.asin];
+      if (!it) return;
+      if (it.image) {
+        var img = document.createElement('img');
+        img.className = 'gimg'; img.src = it.image; img.alt = ''; img.loading = 'lazy';
+        c.insertBefore(img, c.firstChild);
+      }
+      if (it.price) {
+        var p = document.createElement('p');
+        p.className = 'gprice';
+        p.innerHTML = it.price + (stamp ? ' <small>' + stamp + '</small>' : '');
+        var link = c.querySelector('.glink');
+        c.insertBefore(p, link);
+      }
+      if (it.url) { var a = c.querySelector('.glink'); if (a) a.href = it.url; }
+    });
+  }).catch(function () { /* 取れなければ何もしない */ });
 })();
 </script>
 </body>
