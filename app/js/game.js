@@ -208,7 +208,7 @@
 
   Game.prototype.cpuAct = function (p) {
     var ctx = this.contextFor(p);
-    var d = PK.ai.decide(ctx, p.persona || PK.ai.PERSONAS[3], this.rng);
+    var d = PK.ai.decide(ctx, p.persona || PK.ai.PERSONAS[0], this.rng);
     this.act(p.id, d.action, d.size);
   };
 

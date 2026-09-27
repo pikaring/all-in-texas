@@ -214,6 +214,31 @@ html, body {
 .center .pot b { color: var(--accent); font-size: 14px; }
 .center .board { display: flex; gap: 5px; }
 .center .result { font-size: 12.5px; color: var(--accent); font-weight: 700; text-align: center; min-height: 16px; }
+/* ハンド終了時のひとこと（高さを固定して、出ても消えてもレイアウトを動かさない） */
+.quip-row { height: 24px; display: flex; align-items: center; justify-content: center; max-width: 100%; }
+.quip { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.quip .bubble {
+  background: var(--card-bg); color: var(--black);
+  border-radius: 10px; padding: 1px 9px;
+  font-size: 11.5px; line-height: 1.6;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.quip .bubble b { color: var(--felt); margin-right: 5px; }
+.quip.big { margin: 8px 0; gap: 10px; }
+.quip.big .bubble { white-space: normal; border-radius: 12px; padding: 8px 11px; font-size: 13px; }
+.quip.big .bubble b { display: block; font-size: 11px; }
+
+/* 顔アイコン */
+.face {
+  width: 15px; height: 15px; flex: none;
+  border-radius: 50%; object-fit: cover;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+.quip .face { width: 22px; height: 22px; border-color: var(--accent); }
+.quip.lose .face { border-color: rgba(255, 255, 255, .35); }
+.face.mid { width: 44px; height: 44px; }
+.quip .face.big { width: 76px; height: 76px; border-width: 2px; }
 
 /* ---- コーチ（初心者モード） ---- */
 .coach {
@@ -373,7 +398,8 @@ html, body {
 .sheet .big { font-size: 22px; font-weight: 700; color: var(--accent); margin: 6px 0; }
 .sheet .result-list { font-size: 12.5px; line-height: 1.8; }
 
-.char { margin: 9px 0; }
+.char { margin: 9px 0; display: flex; gap: 9px; align-items: center; }
+.char-body { flex: 1; min-width: 0; }
 .char-top { display: flex; align-items: center; gap: 6px; font-size: 14px; }
 .char-top .tag { background: rgba(255, 255, 255, .18); border-radius: 3px; padding: 0 5px; font-size: 11px; }
 .char-top .nums { margin-left: auto; font-size: 11px; opacity: .75; font-variant-numeric: tabular-nums; }

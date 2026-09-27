@@ -18,8 +18,37 @@
   var settings = { coach: true, open: false, speed: 1, opps: 3 };
   var logs = [];
   var advice = null;          // 直近のコーチ結果
+  var quip = null;            // ハンド終了時のひとこと（ハンドごとに 1 回だけ選ぶ）
   var heroTurn = false;
   var betTo = 0;              // スライダーの値（到達額）
+
+  /* ---- 顔とひとこと ---- */
+  function faceHTML(pe, kind, cls) {
+    var f = pe && pe.id && PK.FACES && PK.FACES[pe.id];
+    return f ? '<img class="face ' + (cls || '') + '" src="' + f[kind || 'normal'] + '" alt="">' : '';
+  }
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  /**
+   * ポットを取った CPU の勝ちゼリフ。あなたが取ったときは、最後まで残って負けた CPU
+   * （全員降りたなら降りた CPU のだれか）の負けゼリフ。
+   */
+  function makeQuip(results) {
+    var w = game.players[results.winners[0]];
+    if (w && !w.isHero && w.persona) return { pe: w.persona, lose: false, line: pick(w.persona.talk.win) };
+    var losers = game.players.filter(function (p) { return !p.isHero && !p.out && p.cards.length && !p.folded; });
+    if (!losers.length) losers = game.players.filter(function (p) { return !p.isHero && !p.out && p.cards.length; });
+    if (!losers.length) return null;
+    var l = pick(losers);
+    return { pe: l.persona, lose: true, line: pick(l.persona.talk.lose) };
+  }
+
+  function quipHTML(q, big) {
+    if (!q) return '';
+    return '<div class="quip' + (q.lose ? ' lose' : '') + (big ? ' big' : '') + '">' +
+      faceHTML(q.pe, q.lose ? 'lose' : 'win', big ? 'big' : '') +
+      '<span class="bubble"><b>' + esc(q.pe.name) + '</b>' + esc(q.line) + '</span></div>';
+  }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -90,7 +119,7 @@
       var hand = '';
       if (!p.folded && !p.out && showAll && game.board.length >= 3) hand = C.describe(C.evaluate(p.cards.concat(game.board)));
       return '<div class="' + cls + '">' +
-        '<div class="seat-head"><span class="nm">' + esc(p.name) + '</span><span class="tag">' + esc(p.persona.tag) + '</span>' + (p.out ? '' : posBadge(p.id)) + '</div>' +
+        '<div class="seat-head">' + faceHTML(p.persona, 'normal') + '<span class="nm">' + esc(p.name) + '</span><span class="tag">' + esc(p.persona.tag) + '</span>' + (p.out ? '' : posBadge(p.id)) + '</div>' +
         '<div class="seat-body"><div class="cards">' + cards + '</div><span class="stack">' + p.stack + '</span></div>' +
         '<div class="seat-foot">' + (p.bet ? '<span class="bet">▲' + p.bet + '</span>' : '') +
         '<span class="last' + (strong ? ' strong' : '') + '">' + esc(hand || last) + '</span></div>' +
@@ -118,6 +147,7 @@
       }).join(' ／ ');
     }
     html += '<div class="result">' + esc(res) + '</div>';
+    html += '<div class="quip-row">' + (game.handOver ? quipHTML(quip) : '') + '</div>';
     $('center').innerHTML = html;
   }
 
@@ -298,6 +328,7 @@
     }
     if (type === 'hand-end') {
       heroTurn = false;
+      quip = data && data.results ? makeQuip(data.results) : null;
       // 自動では進めない。結果を読んでから「次のハンド」を押す
       render();
       return;
@@ -315,6 +346,14 @@
     var hero = g.players[0];
     var html = '<h2>ゲーム終了</h2>';
     html += '<div class="big">' + (data.rank === 1 ? '🏆 優勝！' : data.rank + ' 位') + '</div>';
+    // 優勝した CPU の喜び、あなたが優勝したら最後に退場した CPU のくやしがり
+    var champ = g.players.filter(function (p) { return !p.out; })[0];
+    if (champ && !champ.isHero && champ.persona) {
+      html += quipHTML({ pe: champ.persona, lose: false, line: pick(champ.persona.talk.top) }, true);
+    } else {
+      var opp = g.players.filter(function (p) { return !p.isHero && p.persona; });
+      if (opp.length) { var o = pick(opp); html += quipHTML({ pe: o.persona, lose: true, line: pick(o.persona.talk.lose) }, true); }
+    }
     html += '<div class="detail">' + data.hands + ' ハンドで決着。' +
       (data.rank === 1 ? '全員のチップを獲得しました。' : 'チップが尽きました。') + '</div>';
     html += '<div class="result-list" style="margin-top:8px">' + g.players.map(function (p) {
@@ -354,9 +393,9 @@
 
   function renderCharList() {
     $('char-list').innerHTML = PK.ai.PERSONAS.map(function (c) {
-      return '<div class="char"><div class="char-top"><b>' + esc(c.name) + '</b><span class="tag">' + esc(c.tag) + '</span>' +
+      return '<div class="char">' + faceHTML(c, 'normal', 'mid') + '<div class="char-body"><div class="char-top"><b>' + esc(c.name) + '</b><span class="tag">' + esc(c.tag) + '</span>' +
         '<span class="nums">堅さ ' + c.tight + '・攻め ' + c.aggr + '・ブラフ ' + c.bluff + '</span></div>' +
-        '<div class="char-desc">' + esc(c.desc) + '</div></div>';
+        '<div class="char-desc">' + esc(c.desc) + '</div></div></div>';
     }).join('');
   }
 
