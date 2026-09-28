@@ -30,6 +30,10 @@
     this.startStack = opts.startStack || 3000;
     this.autoHero = !!opts.autoHero;   // テスト用：自分も CPU が打つ
     this.heroPersona = opts.heroPersona || null;
+    // 顔ぶれ: me = あなたのキャラ（打ち筋の番号。null なら名なしの「あなた」）、
+    // cast = 相手の席に座らせるキャラ（前から順に。足りない席はおまかせ）
+    this.me = opts.me == null ? null : opts.me;
+    this.cast = opts.cast || [];
     this.timer = null;
     this.players = [];
   }
@@ -50,13 +54,22 @@
   Game.prototype.startGame = function () {
     var self = this;
     this.rng = this.seed != null ? C.mulberry32(this.seed) : Math.random;
-    var personas = PK.ai.PERSONAS.slice();
+    var ALL = PK.ai.PERSONAS;
+    var personas = ALL.slice();
     C.shuffle(personas, this.rng);
     this.players = [];
-    // テスト用に自分の席へ打ち筋を割り当てられる（heroPersona）
-    var hp = this.heroPersona || null;
+    // テスト用に自分の席へ打ち筋を割り当てられる（heroPersona）。
+    // ふだんは顔ぶれで選んだあなたのキャラ（顔とひとことだけで、打つのはあなた）
+    var hp = this.heroPersona || (this.me != null && ALL[this.me]) || null;
     this.players.push({ id: 0, name: hp ? hp.name : 'あなた', isHero: true, persona: hp, stack: this.startStack });
     if (hp) personas = personas.filter(function (q) { return q !== hp; });
+    // 指定された相手を前の席から座らせ、残りはおまかせ
+    var fixed = [];
+    this.cast.forEach(function (c) {
+      var pe = ALL[c];
+      if (pe && pe !== hp && fixed.indexOf(pe) < 0) fixed.push(pe);
+    });
+    personas = fixed.concat(personas.filter(function (q) { return fixed.indexOf(q) < 0; }));
     for (var i = 0; i < this.nOpp; i++) {
       var pe = personas[i % personas.length];
       this.players.push({ id: i + 1, name: pe.name, isHero: false, persona: pe, stack: this.startStack });

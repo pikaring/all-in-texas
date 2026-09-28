@@ -15,7 +15,8 @@
 
   var $ = function (id) { return document.getElementById(id); };
   var game = null;
-  var settings = { coach: true, open: false, speed: 1, opps: 3 };
+  var settings = { coach: true, open: false, speed: 1, opps: 3, me: null, cast: [] };
+  var pickMe = null, pickCast = [];   // 顔ぶれ選びの途中の状態
   var logs = [];
   var advice = null;          // 直近のコーチ結果
   var quip = null;            // ハンド終了時のひとこと（ハンドごとに 1 回だけ選ぶ）
@@ -35,7 +36,7 @@
    */
   function makeQuip(results) {
     var w = game.players[results.winners[0]];
-    if (w && !w.isHero && w.persona) return { pe: w.persona, lose: false, line: pick(w.persona.talk.win) };
+    if (w && w.persona) return { pe: w.persona, lose: false, line: pick(w.persona.talk.win) };
     var losers = game.players.filter(function (p) { return !p.isHero && !p.out && p.cards.length && !p.folded; });
     if (!losers.length) losers = game.players.filter(function (p) { return !p.isHero && !p.out && p.cards.length; });
     if (!losers.length) return null;
@@ -234,7 +235,7 @@
     }
     $('self').className = cls;
     $('self').innerHTML = '<div class="cards">' + cards + '</div>' +
-      '<div class="info"><div class="nm">あなた ' + (p.out ? '' : posBadge(0)) + '</div>' +
+      '<div class="info"><div class="nm">' + faceHTML(p.persona, 'normal') + esc(p.name) + ' ' + (p.out ? '' : posBadge(0)) + '</div>' +
       '<div class="stack">' + p.stack + (p.allIn ? ' <span style="font-size:11px;color:#e2564a">オールイン</span>' : '') + '</div>' +
       (p.bet ? '<div class="bet">▲ ベット ' + p.bet + '</div>' : '') +
       '<div class="handname">' + esc(p.folded ? 'フォールド' : handName) + '</div></div>';
@@ -348,7 +349,7 @@
     html += '<div class="big">' + (data.rank === 1 ? '🏆 優勝！' : data.rank + ' 位') + '</div>';
     // 優勝した CPU の喜び、あなたが優勝したら最後に退場した CPU のくやしがり
     var champ = g.players.filter(function (p) { return !p.out; })[0];
-    if (champ && !champ.isHero && champ.persona) {
+    if (champ && champ.persona) {
       html += quipHTML({ pe: champ.persona, lose: false, line: pick(champ.persona.talk.top) }, true);
     } else {
       var opp = g.players.filter(function (p) { return !p.isHero && p.persona; });
@@ -399,11 +400,49 @@
     }).join('');
   }
 
+  /* ---- 顔ぶれを選ぶ ---- */
+  function pickerHTML() {
+    var P = PK.ai.PERSONAS;
+    var n = settings.opps;
+    var meCells = '<button class="pick' + (pickMe == null ? ' on' : '') + '" data-act="pick-me" data-i="-1">' +
+      '<span class="noface">？</span><span class="pn">名なし</span></button>' +
+      P.map(function (c, i) {
+        return '<button class="pick' + (pickMe === i ? ' on' : '') + '" data-act="pick-me" data-i="' + i + '">' +
+          faceHTML(c, 'normal', 'mid') + '<span class="pn">' + esc(c.name) + '</span></button>';
+      }).join('');
+    var oppCells = P.map(function (c, i) {
+      var k = pickCast.indexOf(i);
+      var mine = pickMe === i;
+      return '<button class="pick' + (k >= 0 ? ' on' : '') + (mine ? ' off' : '') + '" data-act="pick-opp" data-i="' + i + '"' +
+        (mine ? ' disabled' : '') + '>' + faceHTML(c, 'normal', 'mid') +
+        (k >= 0 ? '<span class="order">' + (k + 1) + '</span>' : '') +
+        '<span class="pn">' + esc(c.name) + '</span><span class="pt2">' + esc(c.tag) + '</span></button>';
+    }).join('');
+    var rest = n - pickCast.length;
+    return '<h2>顔ぶれを選ぶ</h2>' +
+      '<div class="sub">あなたのキャラ（ポットを取ったときに顔とひとことが出ます）</div>' +
+      '<div class="pick-grid">' + meCells + '</div>' +
+      '<div class="sub">対戦相手 ' + n + ' 人（人数は「相手」ボタンで変更。' + (rest > 0 ? 'あと ' + rest + ' 人は' : '') + 'おまかせ）</div>' +
+      '<div class="pick-grid">' + oppCells + '</div>' +
+      '<div class="pick-actions">' +
+      '<button class="btn" data-act="pick-random">相手をおまかせに戻す</button>' +
+      '<button class="btn" data-act="close-sheet">やめる</button>' +
+      '<button class="btn primary" data-act="pick-start">この顔ぶれで始める</button></div>';
+  }
+
+  function openPicker() {
+    pickMe = settings.me;
+    pickCast = (settings.cast || []).filter(function (c) { return c != null && c !== pickMe; }).slice(0, settings.opps);
+    $('sheet').innerHTML = pickerHTML();
+    $('overlay').hidden = false;
+  }
+
   /* ---- 操作 ---- */
   function newGame() {
     if (game) game.stop();
     logs = []; advice = null; heroTurn = false;
-    game = new PK.Game({ speed: SPEEDS[settings.speed].ms, opponents: settings.opps, onEvent: onEvent });
+    game = new PK.Game({ speed: SPEEDS[settings.speed].ms, opponents: settings.opps, onEvent: onEvent,
+      me: settings.me, cast: settings.cast });
     $('overlay').hidden = true;
     game.startGame();
     render();
@@ -438,6 +477,27 @@
     var act = btn.getAttribute('data-act');
     switch (act) {
       case 'new-game': newGame(); break;
+      case 'pick': openPicker(); break;
+      case 'pick-me':
+        var mi = parseInt(btn.getAttribute('data-i'), 10);
+        pickMe = mi < 0 ? null : mi;
+        pickCast = pickCast.filter(function (c) { return c !== pickMe; });
+        $('sheet').innerHTML = pickerHTML();
+        break;
+      case 'pick-opp':
+        var oi = parseInt(btn.getAttribute('data-i'), 10);
+        var at = pickCast.indexOf(oi);
+        if (at >= 0) pickCast.splice(at, 1);
+        else if (pickCast.length < settings.opps) pickCast.push(oi);
+        $('sheet').innerHTML = pickerHTML();
+        break;
+      case 'pick-random': pickCast = []; $('sheet').innerHTML = pickerHTML(); break;
+      case 'pick-start':
+        settings.me = pickMe;
+        settings.cast = pickCast.slice();
+        saveSettings();
+        newGame();
+        break;
       case 'next-hand': if (game && game.handOver) game.nextHand(); break;
       case 'fold': case 'check': case 'call':
         if (game && heroTurn) { heroTurn = false; game.act(0, act); }
@@ -484,6 +544,7 @@
 
   function init() {
     loadSettings();
+    if (!Array.isArray(settings.cast)) settings.cast = [];
     updateButtons();
     renderCharList();
     document.addEventListener('click', onClick);
