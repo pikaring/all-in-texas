@@ -217,8 +217,9 @@
 
   function renderLog() {
     var box = $('log');
-    box.innerHTML = logs.slice(-40).map(function (l) { return '<div class="' + l.cls + '">' + esc(l.message) + '</div>'; }).join('');
-    box.scrollTop = box.scrollHeight;
+    // 新しい行を上に出す（最下段に置いているので、古い行ほど画面の下に隠れていく）
+    box.innerHTML = logs.slice(-40).reverse().map(function (l) { return '<div class="' + l.cls + '">' + esc(l.message) + '</div>'; }).join('');
+    box.scrollTop = 0;
   }
 
   function renderSelf() {

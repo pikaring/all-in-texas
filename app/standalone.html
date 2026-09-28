@@ -56,17 +56,22 @@ html, body {
   overscroll-behavior: none;
 }
 
+/* ログを最下段に置くのは、iPhone の Safari で画面下のツールバーが盤面に重なっても、
+   隠れるのが古いログだけで済むようにするため（新しい行が上）。 */
 #app {
   width: 100%;
   max-width: 430px;
   height: 100dvh;
   margin: 0 auto;
   padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  grid-template-rows: auto auto auto auto auto minmax(0, 1fr) auto auto;
+  /* 欄が出たり消えたりしても行の割り当てがずれないよう、縦並び（flex）にする */
+  display: flex;
+  flex-direction: column;
   gap: 5px;
   overflow: hidden;
 }
+#app > * { flex: none; }
+#app > .log { flex: 1 1 0; }
 
 /* ---- 上部の操作ボタン ---- */
 .topbar {
@@ -310,12 +315,13 @@ html, body {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   scrollbar-width: none;
   text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
 }
 .log::-webkit-scrollbar { display: none; }
 .log div { opacity: .8; flex: none; }
+.log div:first-child { opacity: 1; }
 .log div.hl { color: var(--accent); opacity: 1; }
 
 /* ---- 自分 ---- */
@@ -493,9 +499,9 @@ html, body {
   <div class="opps" id="opps"></div>
   <div class="center" id="center"></div>
   <div class="coach" id="coach" hidden></div>
-  <div class="log" id="log"></div>
   <div class="self" id="self"></div>
   <div class="actions" id="actions"></div>
+  <div class="log" id="log"></div>
 </div>
 
 <div class="overlay" id="overlay" hidden>
@@ -1962,8 +1968,9 @@ html, body {
 
   function renderLog() {
     var box = $('log');
-    box.innerHTML = logs.slice(-40).map(function (l) { return '<div class="' + l.cls + '">' + esc(l.message) + '</div>'; }).join('');
-    box.scrollTop = box.scrollHeight;
+    // 新しい行を上に出す（最下段に置いているので、古い行ほど画面の下に隠れていく）
+    box.innerHTML = logs.slice(-40).reverse().map(function (l) { return '<div class="' + l.cls + '">' + esc(l.message) + '</div>'; }).join('');
+    box.scrollTop = 0;
   }
 
   function renderSelf() {
